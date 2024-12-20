@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lista de Motoristas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Lista de Motoristas</h2>
+    
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CNH</th>
+                    <th>Categoria</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                <tr>
+                    <td>{{ driver.name }}</td>
+                    <td>{{ driver.number_cnh }}</td>
+                    <td>{{ driver.category_cnh }}</td>
+                    <td>{{ driver.phone }}</td>
+                    <td>
+                        {% if driver.active %}
+                            <span class="badge bg-success">Ativo</span>
+                            {% else %}
+                            <span class="badge bg-danger">Inativo</span>
+                            {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_driver' driver.id %}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit">Editar</i>
+                        </a>
+                        <a href="{% url 'delete_driver' driver.id %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-eye">Excluir</i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum motorista cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="mb-3">
+            <a href="{% url 'create_driver' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Novo Motorista
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
